@@ -1,3 +1,14 @@
 {
-  "extends": ["next/core-web-vitals", "google", "prettier"]
+  "extends": [
+    "next/core-web-vitals",
+    "google",
+    "prettier"
+  ],
+  "rules": {
+    "semi": [
+      2,
+      "always"
+    ]
+    // Agrega la obligación de usar punto y coma
+  }
 }
