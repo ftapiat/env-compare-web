@@ -1,14 +1,20 @@
 {
   "extends": [
     "next/core-web-vitals",
+    "eslint:recommended",
     "google",
-    "prettier"
+    "prettier",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint"
   ],
   "rules": {
     "semi": [
       2,
       "always"
-    ]
-    // Agrega la obligación de usar punto y coma
+    ], // Agrega la obligación de usar punto y coma
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error"
   }
 }
