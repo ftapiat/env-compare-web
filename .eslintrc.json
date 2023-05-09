@@ -15,6 +15,7 @@
       "always"
     ], // Agrega la obligación de usar punto y coma
     "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": "error"
+    "@typescript-eslint/no-unused-vars": "error",
+    "new-cap": "off"
   }
 }

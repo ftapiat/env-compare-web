@@ -57,8 +57,7 @@ export abstract class HttpClientModel {
 
   /**
    * Call the API using the given parameters
-   * @template T The type of the response
    * @return {Promise}
    */
-  public abstract call<T>(): Promise<T>;
+  public abstract call(): Promise<Response>;
 }

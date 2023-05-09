@@ -7,10 +7,9 @@ import { HttpMethod } from './HttpMethod';
 export class FetchHttpClientModel extends HttpClientModel {
   /**
    * Call the API using the given parameters
-   * @template T The type of the response
    * @return {Promise}
    */
-  public async call<T>(): Promise<T> {
+  public async call(): Promise<Response> {
     try {
       const headers = {
         'Content-Type': 'application/json',
@@ -29,8 +28,7 @@ export class FetchHttpClientModel extends HttpClientModel {
         body: payload,
       });
 
-      const response = await fetch(request);
-      return (await response.json()) as Promise<T>;
+      return fetch(request);
     } catch (e) {
       console.error(e);
       throw e; // Todo transform to a custom error
