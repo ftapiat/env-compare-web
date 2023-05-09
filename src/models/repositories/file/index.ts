@@ -30,9 +30,11 @@ export class FileRepository {
       .call();
 
     const result = await r.json();
-    return ApiResponseModel.fromJson<object>(
-      result,
-      (data) => plainToInstance(Object, data) // Todo cast to model
-    );
+    // return ApiResponseModel.fromJson<object>(
+    //   result,
+    //   (data) => plainToInstance(Object, data)
+    // );
+
+    return ApiResponseModel.fromJsonWithClass<object>(result, Object); // Todo cast to model
   }
 }
