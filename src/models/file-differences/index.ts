@@ -1,5 +1,5 @@
 import { FileValuesModel } from '@/models/file-values';
-import { Exclude, Expose, Type } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { ComparedValuesModel } from '@/models/compared-values';
 
 /**

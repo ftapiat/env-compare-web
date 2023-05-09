@@ -18,6 +18,10 @@ const urls: FileValueRepositoryUrls = {
 export class FileValueRepository {
   private readonly urls = urls;
 
+  /**
+   * Returns the differences between two values of files.
+   * @param {FileValuesModel[]} fileValues Values of the files to compare.
+   */
   public async getDifferences(
     fileValues: FileValuesModel[]
   ): Promise<ApiResponseModel<ComparedValuesModel>> {
