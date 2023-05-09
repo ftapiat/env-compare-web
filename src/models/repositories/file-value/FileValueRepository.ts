@@ -1,7 +1,7 @@
 import { FileValuesModel } from '@/models/file-values';
 import { ApiResponseModel } from '@/models/api-response';
 import { ComparedValuesModel } from '@/models/compared-values';
-import { HttpClient } from '@/models/http-client/HttpClient';
+import { httpClient } from '@/models/http-client/HttpClient';
 import { instanceToPlain } from 'class-transformer';
 
 interface FileValueRepositoryUrls {
@@ -29,7 +29,8 @@ export class FileValueRepository {
       values: instanceToPlain(fileValues),
     };
 
-    const r = await HttpClient.setUrl(this.urls.getDifferences)
+    const r = await httpClient
+      .setUrl(this.urls.getDifferences)
       .setMethodPost()
       .setPayload(payload)
       .call();

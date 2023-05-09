@@ -1,6 +1,6 @@
 import { ComparableFileModel } from '@/models/comparable-file';
 import { ApiResponseModel } from '@/models/api-response';
-import { HttpClient } from '@/models/http-client/HttpClient';
+import { httpClient } from '@/models/http-client/HttpClient';
 import { instanceToPlain } from 'class-transformer';
 import { FileValuesModel } from '@/models/file-values';
 
@@ -29,7 +29,8 @@ export class FileRepository {
       file: instanceToPlain(file),
     };
 
-    const r = await HttpClient.setUrl(this.urls.getValues)
+    const r = await httpClient
+      .setUrl(this.urls.getValues)
       .setMethodPost()
       .setPayload(payload)
       .call();
