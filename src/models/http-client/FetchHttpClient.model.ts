@@ -20,7 +20,6 @@ export class FetchHttpClientModel extends HttpClientModel {
       const payload = this.getParsedBodyFromMethod();
 
       console.log(`[${this.method}] ${url}`);
-      console.log('PAYLOAD', payload);
 
       const request = new Request(url, {
         method: this.method,

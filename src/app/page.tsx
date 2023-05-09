@@ -1,6 +1,13 @@
 'use client';
 
+import 'reflect-metadata'; // Todo move to a root file
 import { FormEvent, useState } from 'react';
+import { FileDifferencesModel } from '@/models/file-differences';
+import {
+  ValueDifferencesContentModel,
+  ValueDifferencesModel,
+} from '@/models/value-differences';
+import { plainToInstance } from 'class-transformer';
 
 type FormTarget = EventTarget & {
   file_1_content: { value: string };
@@ -12,7 +19,9 @@ type FormTarget = EventTarget & {
  * @constructor
  */
 export default function Home() {
-  const [diffResult, setDiffResult] = useState<any>(null); // Todo type
+  const [diffResult, setDiffResult] = useState<FileDifferencesModel | null>(
+    null
+  ); // Todo type
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -46,15 +55,23 @@ export default function Home() {
 
     const response = await fetch(endpoint, options);
     const result = await response.json();
-    setDiffResult(result); // Asumes that the response is OK, TODO Handle errors
+    setDiffResult(
+      plainToInstance(
+        FileDifferencesModel,
+        result
+      ) as unknown as FileDifferencesModel
+    ); // Asumes that the response is OK, TODO Handle errors
   };
 
-  const getJsxValueDifferences = (fileValueDifferences: any) => {
-    const indexes = fileValueDifferences.index_differences;
+  const getJsxValueDifferences = (
+    fileValueDifferences: ValueDifferencesContentModel
+  ) => {
+    const indexes = fileValueDifferences.indexDifferences;
     const content = fileValueDifferences.string;
 
-    const arrayContent: JSX.Element[] = [...content].map(
-      (char: string, i: number) => {
+    const arrayContent: JSX.Element[] = content
+      .split('')
+      .map((char: string, i: number) => {
         const className = indexes.includes(i) ? 'bg-red-400' : '';
         // Todo fix performance, reduce the number of spans
         return (
@@ -62,8 +79,7 @@ export default function Home() {
             {char}
           </span>
         );
-      }
-    );
+      });
 
     return <>{arrayContent}</>;
   };
@@ -94,8 +110,8 @@ export default function Home() {
                 <thead>
                   <tr>
                     <th>Difference</th>
-                    <th>{diffResult.values.file_1.file_name}</th>
-                    <th>{diffResult.values.file_2.file_name}</th>
+                    <th>{diffResult.values.file1.fileName}</th>
+                    <th>{diffResult.values.file2.fileName}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -103,26 +119,26 @@ export default function Home() {
                     <td>Keys</td>
                     {/* Todo Simplify */}
                     <td>
-                      {diffResult.differences.key_differences.file_1.map(
+                      {diffResult.differences.keyDifferences.file1.map(
                         (keyName: string, i: number) => (
                           <p key={i}>{keyName}</p>
                         )
                       )}
                     </td>
                     <td>
-                      {diffResult.differences.key_differences.file_2.map(
+                      {diffResult.differences.keyDifferences.file2.map(
                         (keyName: string, i: number) => (
                           <p key={i}>{keyName}</p>
                         )
                       )}
                     </td>
                   </tr>
-                  {diffResult.differences.value_differences.map(
-                    (differences: any, i: number) => (
+                  {diffResult.differences.valueDifferences.map(
+                    (differences: ValueDifferencesModel, i: number) => (
                       <tr key={i}>
                         <td>{differences.key}</td>
-                        <td>{getJsxValueDifferences(differences.file_1)}</td>
-                        <td>{getJsxValueDifferences(differences.file_2)}</td>
+                        <td>{getJsxValueDifferences(differences.file1)}</td>
+                        <td>{getJsxValueDifferences(differences.file2)}</td>
                       </tr>
                     )
                   )}

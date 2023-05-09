@@ -5,7 +5,7 @@ import { HttpMethod } from './HttpMethod';
  */
 export abstract class HttpClientModel {
   protected url = '';
-  protected payload = {};
+  protected payload: unknown = {};
   protected method: HttpMethod = HttpMethod.GET;
 
   /**
@@ -23,7 +23,7 @@ export abstract class HttpClientModel {
    * @param {any} payload
    * @return {HttpClientModel}
    */
-  public setPayload(payload: any): HttpClientModel {
+  public setPayload(payload: unknown): HttpClientModel {
     this.payload = payload;
     return this;
   }

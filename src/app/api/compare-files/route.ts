@@ -1,5 +1,11 @@
+import 'reflect-metadata'; // Todo move to a root file
 import { NextResponse } from 'next/server';
-import { HttpClient } from '@/models/http-client/HttpClient';
+import { FileRepository, FileValueRepository } from '@/models/repositories';
+import {
+  FileDifferencesModel,
+  FileDifferencesValuesModel,
+} from '@/models/file-differences';
+import { instanceToPlain } from 'class-transformer';
 
 /**
  * Returns a "Hello World" response from the API.
@@ -8,45 +14,26 @@ import { HttpClient } from '@/models/http-client/HttpClient';
  */
 export async function POST(request: Request) {
   // Todo add validation
-  const body = await request.json(); // TODO Cast to model
+  const body = await request.json();
+  const [comparableFile1, comparableFile2] = body.files;
 
-  // Todo delete this test:
-  try {
-    const url = process.env.BACKEND_GET_FILE_VALUES_URL as string;
-    const payload = {
-      file: body.files[0],
-    };
+  // Todo handle errors
+  // Get both values on parallel
+  const repository = new FileRepository();
+  const [responseValues1, responseValues2] = await Promise.all([
+    repository.getValues(comparableFile1),
+    repository.getValues(comparableFile2),
+  ]);
 
-    const r = await HttpClient.setUrl(url)
-      .setMethodPost()
-      .setPayload(payload)
-      .call<never>();
+  const responseDifferences = await new FileValueRepository().getDifferences([
+    responseValues1.data,
+    responseValues2.data,
+  ]);
 
-    console.log({ r });
-  } catch (error) {
-    console.error(error);
-  }
+  const values = new FileDifferencesModel(
+    new FileDifferencesValuesModel(responseValues1.data, responseValues2.data),
+    responseDifferences.data
+  );
 
-  // Todo end test, delete above code
-
-  const bodyJson = JSON.stringify(body);
-  try {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: bodyJson,
-    };
-
-    const url = process.env.BACKEND_URL + '/compare/files'; // Todo replace
-    console.log(JSON.stringify({ url, bodyJson }));
-
-    const res = await fetch(url, options); // Todo move fetcher to model
-    const resJson = await res.json(); // Todo cast to ApiModel
-    return NextResponse.json(resJson.data); // Only return values
-  } catch (error) {
-    console.error(error);
-    return NextResponse.json({ message: 'Error 🤮' });
-  }
+  return NextResponse.json(instanceToPlain(values));
 }

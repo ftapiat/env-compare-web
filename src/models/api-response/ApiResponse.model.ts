@@ -1,6 +1,6 @@
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 
-// Todo Add the rest of the properties here
+// Todo Add the rest of the properties here. Delete next line
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface ApiResponseSimilarStructure {}
 
@@ -12,7 +12,7 @@ interface JsonStructure extends ApiResponseSimilarStructure {
  * Class Representing the response of an API call
  * @template T
  */
-class ApiResponseModel<T> implements ApiResponseSimilarStructure {
+export class ApiResponseModel<T> implements ApiResponseSimilarStructure {
   public data: T;
 
   /**
@@ -53,5 +53,3 @@ class ApiResponseModel<T> implements ApiResponseSimilarStructure {
     return new ApiResponseModel<T>(data as T);
   }
 }
-
-export { ApiResponseModel };
