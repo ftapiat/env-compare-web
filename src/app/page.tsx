@@ -9,7 +9,7 @@ import {
 } from '@/models/value-differences';
 import { plainToInstance } from 'class-transformer';
 import FormInputsComponents from '@/components/form/FormInputs.components';
-import { PageTitleComponent } from '@/components/primitives';
+import { PageTitleComponent, ButtonComponent } from '@/components/primitives';
 
 type FormTarget = EventTarget & {
   file_1_content: { value: string };
@@ -102,13 +102,9 @@ export default function Home() {
           Env files comparer
         </PageTitleComponent>
         <FormInputsComponents className="mb-7" />
-        {/* TODO use primitive button */}
-        <button className="rounded p-2 font-bold bg-primary text-abyss mb-10">
-          {
-            // TODO use primitive loading
-            isLoadingResult ? 'Loading...' : 'Compare'
-          }
-        </button>
+        <ButtonComponent isLoading={!isLoadingResult} className="w-1/4">
+          Compare
+        </ButtonComponent>
         {diffResult && (
           <>
             <p>Result:</p>
