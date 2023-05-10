@@ -1,5 +1,6 @@
 import './globals.css';
 import React from 'react';
+import { roboto } from '@/resources/fonts';
 
 export const metadata = {
   title: 'Create Next App',
@@ -17,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="font-roboto">
+    <html lang="en" className={`${roboto.variable} font-roboto`}>
       <body className="bg-abyss text-white text-base md:text-lg container px-8 pt-10 mx-auto">
         {children}
       </body>

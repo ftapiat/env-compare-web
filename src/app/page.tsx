@@ -8,7 +8,7 @@ import {
   ValueDifferencesModel,
 } from '@/models/value-differences';
 import { plainToInstance } from 'class-transformer';
-import FormInputs from '@/components/form/FormInputs';
+import FormInputsComponents from '@/components/form/FormInputs.components';
 
 type FormTarget = EventTarget & {
   file_1_content: { value: string };
@@ -101,7 +101,7 @@ export default function Home() {
         <h1 id="diff-form-title" className="text-xl font-bold mb-7">
           Env files comparer
         </h1>
-        <FormInputs className="mb-7" />
+        <FormInputsComponents className="mb-7" />
         {/* TODO use primitive button */}
         <button className="rounded p-2 font-bold bg-primary text-abyss mb-10">
           {

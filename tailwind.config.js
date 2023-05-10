@@ -1,3 +1,5 @@
+import tailwindScrollbar from 'tailwind-scrollbar';
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   important: true,
@@ -16,14 +18,27 @@ module.exports = {
         danger: '#FF6262',
       },
       fontFamily: {
-        roboto: ['Roboto', 'sans-serif'],
-        'roboto-mono': ['"Roboto Mono"', 'Roboto'],
-        nunito: ['Nunito', 'sans-serif'],
+        roboto: ['var(--font-roboto)', 'sans-serif'],
+        'roboto-mono': ['var(--font-roboto-mono)', 'Roboto'],
       },
       dropShadow: {
         'dark-l-t-r': '4px -5px 4px rgba(0, 0, 0, 0.24)',
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        /**
+         * Based on issue https://github.com/tailwindlabs/tailwindcss/issues/5989#issuecomment-962048436.
+         *
+         * Add global utility classes here.
+         */
+        '.text-important': {
+          '@apply font-roboto-mono text-center': {},
+        },
+      });
+    },
+    tailwindScrollbar({ nocompatible: true }),
+  ],
 };

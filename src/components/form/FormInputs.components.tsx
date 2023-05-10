@@ -1,20 +1,26 @@
+import { TextAreaComponent } from '@/components/primitives';
+
 /**
  * Component of the content of the comparison form.
  * @param {?string} className Classname of the div.
  * @constructor
  */
-export default function FormInputs({ className }: { className?: string }) {
+export default function FormInputsComponents({
+  className,
+}: {
+  className?: string;
+}) {
   return (
     <div className={`min-w-full flex flex-row h-96 min-h-[50vh] ${className}`}>
       {/* Todo add filename inputs */}
-      <FileValueTextArea
+      <FileValueTextAreaComponent
         name="file_1_content"
-        placeholder="File 1 content"
+        placeholder={`Paste the "File 1" content`}
         className="mr-2"
       />
-      <FileValueTextArea
+      <FileValueTextAreaComponent
         name="file_2_content"
-        placeholder="File 2 content"
+        placeholder={`Paste the "File 2" content`}
         className="ml-2"
       />
     </div>
@@ -28,7 +34,7 @@ export default function FormInputs({ className }: { className?: string }) {
  * @param {?string} className Classname of the textarea
  * @constructor
  */
-function FileValueTextArea({
+function FileValueTextAreaComponent({
   name,
   placeholder,
   className,
@@ -38,12 +44,11 @@ function FileValueTextArea({
   className?: string;
 }) {
   return (
-    <textarea
+    <TextAreaComponent
       id={name}
       name={name}
-      className={`flex-grow px-2 py-1 bg-neutral-700 text-important ${className}`}
+      className={`flex-grow resize-none text-sm scrollbar scrollbar-thin scrollbar-thumb-primary ${className}`}
       placeholder={placeholder}
-      style={{ resize: 'none' }}
     />
   );
 }
