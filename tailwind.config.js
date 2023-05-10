@@ -7,12 +7,22 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors: {
+        abyss: '#121212',
+        primary: '#03DAC6',
+        secondary: '#ffca46',
+        success: '#8FFF37',
+        danger: '#FF6262',
+      },
+      fontFamily: {
+        roboto: ['Roboto', 'sans-serif'],
+        'roboto-mono': ['"Roboto Mono"', 'Roboto'],
+        nunito: ['Nunito', 'sans-serif'],
+      },
+      dropShadow: {
+        'dark-l-t-r': '4px -5px 4px rgba(0, 0, 0, 0.24)',
       },
     },
   },
   plugins: [],
-}
+};

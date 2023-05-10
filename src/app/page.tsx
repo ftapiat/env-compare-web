@@ -8,6 +8,7 @@ import {
   ValueDifferencesModel,
 } from '@/models/value-differences';
 import { plainToInstance } from 'class-transformer';
+import FormInputs from '@/components/form/FormInputs';
 
 type FormTarget = EventTarget & {
   file_1_content: { value: string };
@@ -19,6 +20,7 @@ type FormTarget = EventTarget & {
  * @constructor
  */
 export default function Home() {
+  const [isLoadingResult, setIsLoadingResult] = useState(false); // Todo extract to redux state
   const [diffResult, setDiffResult] = useState<FileDifferencesModel | null>(
     null
   ); // Todo type
@@ -27,6 +29,7 @@ export default function Home() {
     event.preventDefault();
     const target = event.target as FormTarget;
     setDiffResult(null);
+    setIsLoadingResult(true);
 
     const data = {
       files: [
@@ -53,14 +56,21 @@ export default function Home() {
       body: JsonData,
     };
 
-    const response = await fetch(endpoint, options);
-    const result = await response.json();
-    setDiffResult(
-      plainToInstance(
-        FileDifferencesModel,
-        result
-      ) as unknown as FileDifferencesModel
-    ); // Asumes that the response is OK, TODO Handle errors
+    try {
+      const response = await fetch(endpoint, options);
+      const result = await response.json();
+      setDiffResult(
+        plainToInstance(
+          FileDifferencesModel,
+          result
+        ) as unknown as FileDifferencesModel
+      );
+    } catch (e) {
+      // TODO Handle errors
+      console.error('Error found while parsing data', e);
+    } finally {
+      setIsLoadingResult(false);
+    }
   };
 
   const getJsxValueDifferences = (
@@ -72,7 +82,7 @@ export default function Home() {
     const arrayContent: JSX.Element[] = content
       .split('')
       .map((char: string, i: number) => {
-        const className = indexes.includes(i) ? 'bg-red-400' : '';
+        const className = indexes.includes(i) ? 'text-danger' : '';
         // Todo fix performance, reduce the number of spans
         return (
           <span key={i} className={className}>
@@ -87,36 +97,37 @@ export default function Home() {
   return (
     <div>
       <form onSubmit={(e) => handleSubmit(e)}>
-        {/* Todo make into a component  */}
-        {/* Todo add filename inputs */}
-        <textarea
-          name="file_1_content"
-          id="file_1_content"
-          className="bg-gray-200 mr-2"
-        ></textarea>
-        <textarea
-          name="file_2_content"
-          id="file_2_content"
-          className="bg-gray-200"
-        ></textarea>
-        <br />
-        <button className="p-2 bg-gray-400">Enviar</button>
+        {/* TODO use primitive page-title */}
+        <h1 id="diff-form-title" className="text-xl font-bold mb-7">
+          Env files comparer
+        </h1>
+        <FormInputs className="mb-7" />
+        {/* TODO use primitive button */}
+        <button className="rounded p-2 font-bold bg-primary text-abyss mb-10">
+          {
+            // TODO use primitive loading
+            isLoadingResult ? 'Loading...' : 'Compare'
+          }
+        </button>
         {diffResult && (
           <>
-            <hr />
-            <p>Resultado:</p>
+            <p>Result:</p>
             <output name="result" htmlFor="file_1_content file_2_content">
-              <table>
-                <thead>
+              <table className="border-2 border-primary w-full text-center table-auto mb-5">
+                <thead className="border-b-2 border-b-primary">
                   <tr>
                     <th>Difference</th>
-                    <th>{diffResult.values.file1.fileName}</th>
-                    <th>{diffResult.values.file2.fileName}</th>
+                    <th className="text-secondary">
+                      {diffResult.values.file1.fileName}
+                    </th>
+                    <th className="text-secondary">
+                      {diffResult.values.file2.fileName}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>Keys</td>
+                    <td className="text-secondary">Keys</td>
                     {/* Todo Simplify */}
                     <td>
                       {diffResult.differences.keyDifferences.file1.map(
