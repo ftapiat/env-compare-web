@@ -102,7 +102,7 @@ export default function Home() {
           Env files comparer
         </PageTitleComponent>
         <FormInputsComponents className="mb-7" />
-        <ButtonComponent isLoading={!isLoadingResult} className="w-1/4">
+        <ButtonComponent isLoading={isLoadingResult} className="w-1/4">
           Compare
         </ButtonComponent>
         {diffResult && (
