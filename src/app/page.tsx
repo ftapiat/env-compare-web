@@ -9,6 +9,7 @@ import {
 } from '@/models/value-differences';
 import { plainToInstance } from 'class-transformer';
 import FormInputsComponents from '@/components/form/FormInputs.components';
+import { PageTitleComponent } from '@/components/primitives';
 
 type FormTarget = EventTarget & {
   file_1_content: { value: string };
@@ -97,10 +98,9 @@ export default function Home() {
   return (
     <div>
       <form onSubmit={(e) => handleSubmit(e)}>
-        {/* TODO use primitive page-title */}
-        <h1 id="diff-form-title" className="text-xl font-bold mb-7">
+        <PageTitleComponent id="diff-form-title">
           Env files comparer
-        </h1>
+        </PageTitleComponent>
         <FormInputsComponents className="mb-7" />
         {/* TODO use primitive button */}
         <button className="rounded p-2 font-bold bg-primary text-abyss mb-10">
