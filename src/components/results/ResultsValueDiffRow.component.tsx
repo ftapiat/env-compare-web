@@ -54,12 +54,8 @@ export const ResultsValueDiffRowComponent = ({
   return (
     <tr>
       <td>{differences.key}</td>
-      <td className="px-2 break-words">
-        {generateValueWithDifferencesJsx(differences.file1)}
-      </td>
-      <td className="px-2 break-words">
-        {generateValueWithDifferencesJsx(differences.file2)}
-      </td>
+      <td className="">{generateValueWithDifferencesJsx(differences.file1)}</td>
+      <td className="">{generateValueWithDifferencesJsx(differences.file2)}</td>
     </tr>
   );
 };

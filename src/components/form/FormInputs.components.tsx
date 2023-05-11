@@ -11,17 +11,17 @@ export default function FormInputsComponents({
   className?: string;
 }) {
   return (
-    <div className={`min-w-full flex flex-row h-96 min-h-[50vh] ${className}`}>
+    <div
+      className={`min-w-full h-[75vh] grid gap-3 grid-cols-1 lg:grid-cols-2 ${className}`}
+    >
       {/* Todo add filename inputs */}
       <FileValueTextAreaComponent
         name="file_1_content"
         placeholder={`Paste the "File 1" content`}
-        className="mr-2"
       />
       <FileValueTextAreaComponent
         name="file_2_content"
         placeholder={`Paste the "File 2" content`}
-        className="ml-2"
       />
     </div>
   );
@@ -47,7 +47,7 @@ function FileValueTextAreaComponent({
     <TextAreaComponent
       id={name}
       name={name}
-      className={`flex-grow resize-none text-sm ${className}`}
+      className={`resize-none text-sm ${className}`}
       placeholder={placeholder}
     />
   );

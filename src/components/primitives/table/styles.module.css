@@ -11,6 +11,7 @@
 }
 
 .table > tbody > tr > td {
-  @apply py-1.5;
+  @apply py-1.5 px-2;
   @apply border border-zinc-800;
+  @apply break-words;
 }

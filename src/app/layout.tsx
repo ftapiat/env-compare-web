@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${roboto.variable} font-roboto`}>
-      <body className="bg-abyss text-white text-base md:text-lg container px-8 pt-10 mx-auto">
+      <body className="bg-abyss text-white text-base md:text-lg px-8 md:px-16 2xl:px-32 pt-10 mx-auto">
         {children}
       </body>
     </html>
