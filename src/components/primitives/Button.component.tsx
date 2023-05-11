@@ -14,7 +14,8 @@ export const ButtonComponent = ({
 }: ButtonComponenteProps) => {
   return (
     <button
-      className={`rounded p-2 rounded h-12 mb-7 bg-primary active:bg-primary font-bold text-abyss flex justify-center items-center ${className}`}
+      className={`rounded p-2 rounded h-12 mb-7 bg-primary active:bg-primary font-bold text-abyss flex justify-center items-center disabled:opacity-40 disabled:cursor-not-allowed ${className}`}
+      disabled={isLoading}
     >
       {isLoading ? (
         <SpinnerComponent className="font-bold text-abyss" />
