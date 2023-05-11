@@ -3,25 +3,47 @@ import {
   ValueDifferencesModel,
 } from '@/models/value-differences';
 
-const getValueDifferencesJsx = (
+const generateValueWithDifferencesJsx = (
   fileValueDifferences: ValueDifferencesContentModel
 ) => {
-  const indexes = fileValueDifferences.indexDifferences;
-  const content = fileValueDifferences.string;
+  const arrayContent: JSX.Element[] = [];
 
-  const arrayContent: JSX.Element[] = content
-    .split('')
-    .map((char: string, i: number) => {
-      const className = indexes.includes(i) ? 'text-danger' : '';
-      // Todo fix performance, reduce the number of spans
-      return (
-        <span key={i} className={className}>
-          {char}
-        </span>
-      );
-    });
+  let latestWord = '';
+  let isLastCharPainted = false;
 
-  return <>{arrayContent}</>;
+  const addWord = (word: string, painted: boolean) => {
+    arrayContent.push(
+      <span
+        key={arrayContent.length + 1}
+        className={painted ? 'text-danger' : ''}
+      >
+        {word}
+      </span>
+    );
+  };
+
+  const iterableValues = fileValueDifferences.string.split('');
+  iterableValues.forEach((char: string, i: number) => {
+    if (
+      fileValueDifferences.indexDifferences.includes(i) !== isLastCharPainted
+    ) {
+      // Change of color. Add the buffered word.
+      addWord(latestWord, isLastCharPainted);
+      // Reset the buffer
+      isLastCharPainted = !isLastCharPainted;
+      latestWord = '';
+    }
+
+    // Keeps adding the chars to the buffer until it finds or end a differed word.
+    latestWord += char;
+
+    if (i === iterableValues.length - 1) {
+      // Last char. Add the buffered word.
+      addWord(latestWord, isLastCharPainted);
+    }
+  });
+
+  return arrayContent;
 };
 
 export const ResultsValueDiffRowComponent = ({
@@ -32,8 +54,8 @@ export const ResultsValueDiffRowComponent = ({
   return (
     <tr>
       <td>{differences.key}</td>
-      <td>{getValueDifferencesJsx(differences.file1)}</td>
-      <td>{getValueDifferencesJsx(differences.file2)}</td>
+      <td>{generateValueWithDifferencesJsx(differences.file1)}</td>
+      <td>{generateValueWithDifferencesJsx(differences.file2)}</td>
     </tr>
   );
 };
