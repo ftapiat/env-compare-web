@@ -1,3 +1,7 @@
-.inputColors{
+.inputColors {
     @apply bg-neutral-700 font-roboto-mono;
+}
+
+.textAreaScrollbar {
+     @apply scrollbar scrollbar-thin;
 }

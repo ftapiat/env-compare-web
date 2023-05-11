@@ -47,7 +47,7 @@ function FileValueTextAreaComponent({
     <TextAreaComponent
       id={name}
       name={name}
-      className={`flex-grow resize-none text-sm scrollbar scrollbar-thin scrollbar-thumb-primary ${className}`}
+      className={`flex-grow resize-none text-sm ${className}`}
       placeholder={placeholder}
     />
   );
