@@ -19,12 +19,12 @@ export const ResultsTableComponent = ({
   differences,
 }: ResultsTableInterface) => {
   return (
-    <TableComponent>
+    <TableComponent className="table-fixed">
       <TheadComponent>
         <tr>
           <th>Difference</th>
-          <th className="text-secondary">{values.file1.fileName}</th>
-          <th className="text-secondary">{values.file2.fileName}</th>
+          <th className="w-1/3 text-secondary">{values.file1.fileName}</th>
+          <th className="w-1/3 text-secondary">{values.file2.fileName}</th>
         </tr>
       </TheadComponent>
       <TbodyComponent>

@@ -1,0 +1,16 @@
+.table {
+  @apply border-2 border-primary;
+}
+
+.table > thead {
+  @apply border-b-2 border-b-primary;
+}
+
+.table > thead > tr:first-child > th {
+  @apply py-2;
+}
+
+.table > tbody > tr > td {
+  @apply py-1.5;
+  @apply border border-zinc-800;
+}

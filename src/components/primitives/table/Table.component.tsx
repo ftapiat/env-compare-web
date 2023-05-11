@@ -1,8 +1,14 @@
 import { ReactNode } from 'react';
+import styles from './styles.module.css';
 
-export const TableComponent = ({ children }: { children: ReactNode }) => {
+interface TableProps {
+  className?: string;
+  children: ReactNode;
+}
+
+export const TableComponent = ({ className, children }: TableProps) => {
   return (
-    <table className="border-2 border-primary w-full text-center table-auto mb-5">
+    <table className={`w-full text-center mb-5 ${styles.table} ${className}`}>
       {children}
     </table>
   );
