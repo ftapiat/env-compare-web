@@ -23,7 +23,7 @@ export const ResultsTableComponent = ({
     <TableComponent className="table-fixed">
       <TheadComponent>
         <tr>
-          <th className="bg-zinc-800">Differences</th>
+          <th>Differences</th>
           <th className="text-secondary">{values.file1.fileName}</th>
           <th className="text-secondary">{values.file2.fileName}</th>
         </tr>
