@@ -1,5 +1,10 @@
 import { ReactNode } from 'react';
 
-export const TbodyComponent = ({ children }: { children: ReactNode }) => {
-  return <tbody>{children}</tbody>;
+interface TbodyProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export const TbodyComponent = ({ children, className }: TbodyProps) => {
+  return <tbody className={className}>{children}</tbody>;
 };

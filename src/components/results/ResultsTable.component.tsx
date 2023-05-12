@@ -8,6 +8,7 @@ import {
 import { ValueDifferencesModel } from '@/models/value-differences';
 import { ResultsKeyDiffRowComponent } from './ResultsKeyDiffRow.component';
 import { ResultsValueDiffRowComponent } from '@/components/results/ResultsValueDiffRow.component';
+import { robotoMono } from '@/resources/fonts';
 
 interface ResultsTableInterface {
   values: FileDifferencesValuesModel;
@@ -27,7 +28,7 @@ export const ResultsTableComponent = ({
           <th className="text-secondary">{values.file2.fileName}</th>
         </tr>
       </TheadComponent>
-      <TbodyComponent>
+      <TbodyComponent className={`${robotoMono.variable} font-roboto-mono`}>
         <ResultsKeyDiffRowComponent
           keyDifferences1={differences.keyDifferences.file1}
           keyDifferences2={differences.keyDifferences.file2}
