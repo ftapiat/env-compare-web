@@ -1,0 +1,3 @@
+.keyDifferencesCell > p:not(:last-child) {
+    @apply border-b border-zinc-800;
+}

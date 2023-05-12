@@ -1,11 +1,13 @@
+import styles from './styles.module.css';
+
 interface ResultsKeyDiffRowProps {
   keyDifferences1: string[];
   keyDifferences2: string[];
 }
 
-const generateKeyDifferencesJsx = (keyDifferences: string[]) => {
+const generateKeyDifferencesCellJsx = (keyDifferences: string[]) => {
   return (
-    <td>
+    <td className={styles.keyDifferencesCell}>
       {keyDifferences.map((keyName: string, i: number) => (
         <p key={i}>{keyName}</p>
       ))}
@@ -18,10 +20,10 @@ export const ResultsKeyDiffRowComponent = ({
   keyDifferences2,
 }: ResultsKeyDiffRowProps) => {
   return (
-    <tr>
+    <tr className="align-top">
       <td className="text-secondary">Keys</td>
-      {generateKeyDifferencesJsx(keyDifferences1)}
-      {generateKeyDifferencesJsx(keyDifferences2)}
+      {generateKeyDifferencesCellJsx(keyDifferences1)}
+      {generateKeyDifferencesCellJsx(keyDifferences2)}
     </tr>
   );
 };
