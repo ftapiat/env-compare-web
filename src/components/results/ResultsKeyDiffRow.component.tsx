@@ -22,8 +22,17 @@ export const ResultsKeyDiffRowComponent = ({
   return (
     <tr className="align-top">
       <td className="text-secondary">Keys</td>
-      {generateKeyDifferencesCellJsx(keyDifferences1)}
-      {generateKeyDifferencesCellJsx(keyDifferences2)}
+      {keyDifferences1.length > 0 || keyDifferences2.length > 0 ? (
+        <>
+          {generateKeyDifferencesCellJsx(keyDifferences1)}
+          {generateKeyDifferencesCellJsx(keyDifferences2)}
+        </>
+      ) : (
+        <td colSpan={2} className="text-zinc-600">
+          {/* Todo extract classNames */}
+          No diff: Both files have the same KEYS
+        </td>
+      )}
     </tr>
   );
 };

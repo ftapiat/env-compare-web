@@ -7,6 +7,7 @@ import { plainToInstance } from 'class-transformer';
 import FormInputsComponents from '@/components/form/FormInputs.components';
 import { PageTitleComponent, ButtonComponent } from '@/components/primitives';
 import { ResultsContentComponent } from '@/components/results';
+import { ComparedValuesModel } from '@/models/compared-values';
 
 type FormTarget = EventTarget & {
   file_1_content: { value: string };
@@ -57,12 +58,28 @@ export default function Home() {
     try {
       const response = await fetch(endpoint, options);
       const result = await response.json();
-      setDiffResult(
-        plainToInstance(
-          FileDifferencesModel,
-          result
-        ) as unknown as FileDifferencesModel
+      const fileDifferences = plainToInstance(
+        FileDifferencesModel,
+        result
+      ) as unknown as FileDifferencesModel;
+
+      // Filter the results to only show the KEYS with differences
+      const filteredFileDifferences = new FileDifferencesModel(
+        fileDifferences.values,
+        new ComparedValuesModel(
+          fileDifferences.differences.keyDifferences,
+          fileDifferences.differences.valueDifferences.filter(
+            (valueDifferences) => {
+              return (
+                valueDifferences.file1.indexDifferences.length > 0 ||
+                valueDifferences.file2.indexDifferences.length > 0
+              );
+            }
+          )
+        )
       );
+
+      setDiffResult(filteredFileDifferences);
     } catch (e) {
       // TODO Handle errors
       console.error('Error found while parsing data', e);

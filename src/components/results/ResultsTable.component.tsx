@@ -33,13 +33,23 @@ export const ResultsTableComponent = ({
           keyDifferences1={differences.keyDifferences.file1}
           keyDifferences2={differences.keyDifferences.file2}
         />
-        {differences.valueDifferences.map(
-          (valueDifferences: ValueDifferencesModel, i: number) => (
-            <ResultsValueDiffRowComponent
-              key={i}
-              differences={valueDifferences}
-            />
+        {differences.valueDifferences.length > 0 ? (
+          differences.valueDifferences.map(
+            (valueDifferences: ValueDifferencesModel, i: number) => (
+              <ResultsValueDiffRowComponent
+                key={i}
+                differences={valueDifferences}
+              />
+            )
           )
+        ) : (
+          <tr>
+            <td>Values</td>
+            <td colSpan={2} className="text-zinc-600">
+              {/* Todo extract classNames */}
+              No diff: Simile KEYS have the same VALUES
+            </td>
+          </tr>
         )}
       </TbodyComponent>
     </TableComponent>
