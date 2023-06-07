@@ -1,4 +1,4 @@
-import { TextAreaComponent } from '@/components/primitives';
+import { TextAreaComponent, InputComponent } from '@/components/primitives';
 
 /**
  * Component of the content of the comparison form.
@@ -10,19 +10,32 @@ export default function FormInputsComponents({
 }: {
   className?: string;
 }) {
+  const FILES_COUNT = 2;
+
   return (
     <div
-      className={`min-w-full h-[75vh] grid gap-3 grid-cols-1 lg:grid-cols-2 ${className}`}
+      className={`min-w-full h-[75vh] grid gap-3 grid-cols-1 lg:grid-cols-2 pb-3 ${className}`}
     >
-      {/* Todo add filename inputs */}
-      <FileValueTextAreaComponent
-        name="file_1_content"
-        placeholder={`Paste the "File 1" content`}
-      />
-      <FileValueTextAreaComponent
-        name="file_2_content"
-        placeholder={`Paste the "File 2" content`}
-      />
+      {Array(FILES_COUNT)
+        .fill(null)
+        .map((_, i) => {
+          const defaultFileName = `File ${i}`;
+          const fileName = defaultFileName; // Todo add from state
+
+          return (
+            <div key={i}>
+              <InputComponent
+                labelText={`File ${i} name`}
+                name={`file_${i}_name`}
+                placeholder={defaultFileName}
+              />
+              <FileValueTextAreaComponent
+                name={`file_${i}_content`}
+                placeholder={`Paste the "${fileName}" content`}
+              />
+            </div>
+          );
+        })}
     </div>
   );
 }
@@ -47,7 +60,7 @@ function FileValueTextAreaComponent({
     <TextAreaComponent
       id={name}
       name={name}
-      className={`resize-none text-sm ${className}`}
+      className={`resize-none text-sm w-full h-full ${className ?? ''}`}
       placeholder={placeholder}
     />
   );
