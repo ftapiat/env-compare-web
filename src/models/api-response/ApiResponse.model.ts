@@ -1,11 +1,13 @@
 import { ClassConstructor, plainToInstance } from 'class-transformer';
 
-// Todo Add the rest of the properties here. Delete next line
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface ApiResponseSimilarStructure {}
+interface ApiResponseSimilarStructure {
+  service: string;
+  message: string;
+}
 
 interface JsonStructure extends ApiResponseSimilarStructure {
   data: never;
+  status: string; // Todo Change to ENUM
 }
 
 /**
@@ -13,15 +15,24 @@ interface JsonStructure extends ApiResponseSimilarStructure {
  * @template T
  */
 export class ApiResponseModel<T> implements ApiResponseSimilarStructure {
-  public data: T;
+  public readonly data: T;
+  public readonly service: string;
+  public readonly status: string; // Todo Change to ENUM
+  public readonly message: string;
 
   /**
    * ApiResponseModel constructor
    * @template T
    * @param {T} data
+   * @param {string} service
+   * @param {string} status // Todo Change to ENUM
+   * @param {string} message
    */
-  constructor(data: T) {
+  constructor(data: T, service: string, status: string, message: string) {
     this.data = data;
+    this.service = service;
+    this.status = status; // Todo Change to ENUM
+    this.message = message;
   }
 
   /**
@@ -35,7 +46,12 @@ export class ApiResponseModel<T> implements ApiResponseSimilarStructure {
     json: JsonStructure,
     fromJsonData: (dataJson: never) => T
   ): ApiResponseModel<T> {
-    return new ApiResponseModel<T>(fromJsonData(json.data));
+    return new ApiResponseModel<T>(
+      fromJsonData(json.data),
+      json.service,
+      json.status,
+      json.message
+    );
   }
 
   /**
@@ -50,6 +66,11 @@ export class ApiResponseModel<T> implements ApiResponseSimilarStructure {
     classType: ClassConstructor<T>
   ): ApiResponseModel<T> {
     const data = plainToInstance(classType, json.data);
-    return new ApiResponseModel<T>(data as T);
+    return new ApiResponseModel<T>(
+      data as T,
+      json.service,
+      json.status,
+      json.message
+    );
   }
 }
