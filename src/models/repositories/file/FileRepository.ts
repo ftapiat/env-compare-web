@@ -1,7 +1,7 @@
+import { instanceToPlain } from 'class-transformer';
 import { ComparableFileModel } from '@/models/comparable-file';
 import { ApiResponseModel } from '@/models/api-response';
 import { httpClient } from '@/models/http-client/HttpClient';
-import { instanceToPlain } from 'class-transformer';
 import { FileValuesModel } from '@/models/file-values';
 
 interface FileRepositoryUrls {

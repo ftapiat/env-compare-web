@@ -3,11 +3,15 @@
 import 'reflect-metadata'; // Todo move to a root file
 import { FormEvent, useState } from 'react';
 import { FileDifferencesModel } from '@/models/file-differences';
-import { plainToInstance } from 'class-transformer';
 import FormInputsComponents from '@/components/form/FormInputs.components';
 import { PageTitleComponent, ButtonComponent } from '@/components/primitives';
 import { ResultsContentComponent } from '@/components/results';
 import { ComparedValuesModel } from '@/models/compared-values';
+import {
+  ApiResponseModel,
+  ApiResponseValidationError,
+} from '@/models/api-response';
+import { plainToInstance } from 'class-transformer';
 
 type FormTarget = EventTarget & {
   file_1_content: { value: string };
@@ -20,15 +24,19 @@ type FormTarget = EventTarget & {
  */
 export default function Home() {
   const [isLoadingResult, setIsLoadingResult] = useState(false); // Todo extract to redux state
+  const [errorMessages, setErrorMessages] = useState<string[] | null>(null);
   const [diffResult, setDiffResult] = useState<FileDifferencesModel | null>(
     null
-  ); // Todo type
+  );
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (
+    event: FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
     const target = event.target as FormTarget;
     setDiffResult(null);
     setIsLoadingResult(true);
+    setErrorMessages(null);
 
     const data = {
       files: [
@@ -57,29 +65,40 @@ export default function Home() {
 
     try {
       const response = await fetch(endpoint, options);
-      const result = await response.json();
-      const fileDifferences = plainToInstance(
-        FileDifferencesModel,
-        result
-      ) as unknown as FileDifferencesModel;
+      const plainResponse = await response.json();
+      if (response.status === 200) {
+        const apiResponse =
+          ApiResponseModel.fromJsonWithClass<FileDifferencesModel>(
+            plainResponse,
+            FileDifferencesModel
+          );
 
-      // Filter the results to only show the KEYS with differences
-      const filteredFileDifferences = new FileDifferencesModel(
-        fileDifferences.values,
-        new ComparedValuesModel(
-          fileDifferences.differences.keyDifferences,
-          fileDifferences.differences.valueDifferences.filter(
-            (valueDifferences) => {
-              return (
-                valueDifferences.file1.indexDifferences.length > 0 ||
-                valueDifferences.file2.indexDifferences.length > 0
-              );
-            }
+        const fileDifferences = apiResponse.data;
+
+        // Filter the results to only show the KEYS with differences
+        const filteredFileDifferences = new FileDifferencesModel(
+          fileDifferences.values,
+          new ComparedValuesModel(
+            fileDifferences.differences.keyDifferences,
+            fileDifferences.differences.valueDifferences.filter(
+              (valueDifferences) => {
+                return (
+                  valueDifferences.file1.indexDifferences.length > 0 ||
+                  valueDifferences.file2.indexDifferences.length > 0
+                );
+              }
+            )
           )
-        )
-      );
+        );
 
-      setDiffResult(filteredFileDifferences);
+        setDiffResult(filteredFileDifferences);
+      } else {
+        const error = plainToInstance(
+          ApiResponseValidationError,
+          plainResponse
+        ) as unknown as ApiResponseValidationError;
+        setErrorMessages(error.data);
+      }
     } catch (e) {
       // TODO Handle errors
       console.error('Error found while parsing data', e);
@@ -98,6 +117,12 @@ export default function Home() {
         <ButtonComponent isLoading={isLoadingResult} className="w-1/3 md:w-1/4">
           Compare
         </ButtonComponent>
+        <ul>
+          {/* TODO extract into component. Add styles*/}
+          {errorMessages?.map((errorMessage) => {
+            return <li key={errorMessage}>{errorMessage}</li>;
+          })}
+        </ul>
         {diffResult && <ResultsContentComponent diffResult={diffResult} />}
       </form>
     </div>

@@ -1,14 +1,14 @@
-import { ClassConstructor, plainToInstance } from 'class-transformer';
-
-interface ApiResponseSimilarStructure {
-  service: string;
-  message: string;
-}
-
-interface JsonStructure extends ApiResponseSimilarStructure {
-  data: never;
-  status: string; // Todo Change to ENUM
-}
+import {
+  ClassConstructor,
+  instanceToPlain,
+  plainToInstance,
+} from 'class-transformer';
+import { ApiResponseStatusModel } from './ApiResponseStatus.model';
+import { ApiResponseErrorFactory } from '@/models/api-response/errors';
+import {
+  ApiResponseSimilarStructure,
+  ApiResponseJsonStructure,
+} from './ApiResponseDataStructure';
 
 /**
  * Class Representing the response of an API call
@@ -17,7 +17,7 @@ interface JsonStructure extends ApiResponseSimilarStructure {
 export class ApiResponseModel<T> implements ApiResponseSimilarStructure {
   public readonly data: T;
   public readonly service: string;
-  public readonly status: string; // Todo Change to ENUM
+  public readonly status: ApiResponseStatusModel;
   public readonly message: string;
 
   /**
@@ -25,33 +25,19 @@ export class ApiResponseModel<T> implements ApiResponseSimilarStructure {
    * @template T
    * @param {T} data
    * @param {string} service
-   * @param {string} status // Todo Change to ENUM
+   * @param {ApiResponseStatusModel} status
    * @param {string} message
    */
-  constructor(data: T, service: string, status: string, message: string) {
+  constructor(
+    data: T,
+    service: string,
+    status: ApiResponseStatusModel,
+    message: string
+  ) {
     this.data = data;
     this.service = service;
-    this.status = status; // Todo Change to ENUM
+    this.status = status;
     this.message = message;
-  }
-
-  /**
-   * Create an ApiResponseModel from a json object.
-   * @param {Object} json Json object to convert.
-   * @param {Function} fromJsonData Function to convert the
-   * data part of the json object.
-   * @return {ApiResponseModel<T>}
-   */
-  static fromJson<T>(
-    json: JsonStructure,
-    fromJsonData: (dataJson: never) => T
-  ): ApiResponseModel<T> {
-    return new ApiResponseModel<T>(
-      fromJsonData(json.data),
-      json.service,
-      json.status,
-      json.message
-    );
   }
 
   /**
@@ -62,15 +48,62 @@ export class ApiResponseModel<T> implements ApiResponseSimilarStructure {
    * @return {ApiResponseModel<T>}
    */
   static fromJsonWithClass<T>(
-    json: JsonStructure,
+    json: ApiResponseJsonStructure,
     classType: ClassConstructor<T>
   ): ApiResponseModel<T> {
-    const data = plainToInstance(classType, json.data);
+    return ApiResponseModel.fromJson(json, (data) =>
+      plainToInstance(classType, data)
+    );
+  }
+
+  /**
+   * Create an ApiResponseModel from a json object.
+   * @param {Object} json Json object to convert.
+   * @param {Function} fromJsonData Function to convert the
+   * data part of the json object.
+   * @return {ApiResponseModel<T>}
+   */
+  static fromJson<T>(
+    json: ApiResponseJsonStructure,
+    fromJsonData: (dataJson: unknown) => T
+  ): ApiResponseModel<T> {
+    const status =
+      ApiResponseStatusModel[
+        json.status as keyof typeof ApiResponseStatusModel
+      ];
+
+    if (status === ApiResponseStatusModel.error) {
+      throw ApiResponseErrorFactory.create(json);
+    }
+
     return new ApiResponseModel<T>(
-      data as T,
+      fromJsonData(json.data),
       json.service,
-      json.status,
+      status,
       json.message
     );
+  }
+
+  /**
+   * Convert the ApiResponseModel to a json object.
+   * @param {Function} dataToJson Converter function for the data part of the json object.
+   * @return {ApiResponseJsonStructure}
+   */
+  public toJson(dataToJson: (data: T) => unknown): ApiResponseJsonStructure {
+    return {
+      data: dataToJson(this.data),
+      service: this.service,
+      status: ApiResponseStatusModel[this.status],
+      message: this.message,
+    };
+  }
+
+  /**
+   * Convert the ApiResponseModel to a json object. The data part
+   * will be converted to a plain object automatically.
+   * @return {ApiResponseJsonStructure}
+   */
+  public toJsonClassTransformer(): ApiResponseJsonStructure {
+    return this.toJson((data) => instanceToPlain(data));
   }
 }
