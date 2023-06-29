@@ -12,6 +12,7 @@ import {
   ApiResponseValidationError,
 } from '@/models/api-response';
 import { plainToInstance } from 'class-transformer';
+import { ErrorsListComponent } from '@/components/errors';
 
 type FormTarget = EventTarget & {
   file_1_content: { value: string };
@@ -117,12 +118,7 @@ export default function Home() {
         <ButtonComponent isLoading={isLoadingResult} className="w-1/3 md:w-1/4">
           Compare
         </ButtonComponent>
-        <ul>
-          {/* TODO extract into component. Add styles*/}
-          {errorMessages?.map((errorMessage) => {
-            return <li key={errorMessage}>{errorMessage}</li>;
-          })}
-        </ul>
+        {errorMessages && <ErrorsListComponent errors={errorMessages} />}
         {diffResult && <ResultsContentComponent diffResult={diffResult} />}
       </form>
     </div>

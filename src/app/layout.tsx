@@ -1,6 +1,7 @@
 import './globals.css';
 import React from 'react';
 import { roboto } from '@/resources/fonts';
+import { config } from '@fortawesome/fontawesome-svg-core';
 
 export const metadata = {
   title: 'Create Next App',
@@ -17,6 +18,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  config.autoAddCss = false;
+
   return (
     <html lang="en" className={`${roboto.variable} font-roboto`}>
       <body className="bg-abyss text-white text-base md:text-lg px-8 md:px-16 2xl:px-32 pt-10 mx-auto">

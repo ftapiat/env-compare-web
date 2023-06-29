@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { SpinnerComponent } from '@/components/primitives';
 
-interface ButtonComponenteProps {
+interface ButtonComponentProps {
   className?: string;
   children: ReactNode;
   isLoading?: boolean;
@@ -11,7 +11,7 @@ export const ButtonComponent = ({
   className,
   children,
   isLoading = false,
-}: ButtonComponenteProps) => {
+}: ButtonComponentProps) => {
   return (
     <button
       className={`rounded p-2 rounded h-12 mb-7 bg-primary active:bg-primary font-bold text-abyss flex justify-center items-center disabled:opacity-40 disabled:cursor-not-allowed ${className}`}
