@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       ApiResponseStatusModel.ok,
       'Files compared successfully'
     );
-    return NextResponse.json(apiResponse.toJsonClassTransformer, {
+    return NextResponse.json(apiResponse.toJsonClassTransformer(), {
       status: 200,
     });
   }
