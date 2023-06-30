@@ -1,9 +1,14 @@
 import { Expose } from 'class-transformer';
 
+interface KeyDifferencesInterface {
+  file1: string[];
+  file2: string[];
+}
+
 /**
  * Represents the KEYS that are unique in each file.
  */
-export class KeyDifferencesModel {
+class KeyDifferencesModel {
   private readonly file_1: string[];
 
   private readonly file_2: string[];
@@ -33,3 +38,6 @@ export class KeyDifferencesModel {
     return this.file_2;
   }
 }
+
+export { KeyDifferencesModel };
+export type { KeyDifferencesInterface };

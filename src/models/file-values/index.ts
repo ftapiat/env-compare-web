@@ -5,10 +5,16 @@ interface FileValuesContent {
   value: string;
 }
 
+interface FileValuesInterface {
+  fileName: string;
+  typeName: string;
+  values: FileValuesContent[];
+}
+
 /**
  * Represents a file used for comparison.
  */
-export class FileValuesModel {
+class FileValuesModel implements FileValuesInterface {
   private readonly file_name: string;
 
   private readonly type_name: string;
@@ -43,3 +49,6 @@ export class FileValuesModel {
     return this.type_name;
   }
 }
+
+export { FileValuesModel };
+export type { FileValuesInterface };

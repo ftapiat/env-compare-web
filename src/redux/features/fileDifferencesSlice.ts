@@ -1,14 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { FileDifferencesModel } from '@/models/file-differences';
+import {
+  FileDifferencesInterface,
+  FileDifferencesModel,
+} from '@/models/file-differences';
 import {
   ApiResponseModel,
   ApiResponseValidationError,
 } from '@/models/api-response';
-import { ComparedValuesModel } from '@/models/compared-values';
 import { plainToInstance } from 'class-transformer';
 
 interface FileDifferencesState {
-  fileDifferences: FileDifferencesModel | null;
+  fileDifferences: FileDifferencesInterface | null;
   loading: boolean;
   errors: string[] | null;
 }
@@ -20,7 +22,7 @@ const initialState: FileDifferencesState = {
 };
 
 const fetchFileDifferences = createAsyncThunk<
-  FileDifferencesModel,
+  FileDifferencesInterface,
   { fileContent1: string; fileContent2: string },
   {
     rejectValue: string[];
@@ -62,7 +64,7 @@ const fetchFileDifferences = createAsyncThunk<
             FileDifferencesModel
           );
 
-        return apiResponse.data;
+        return Object.assign({}, apiResponse.data);
       } else {
         const error = plainToInstance(
           ApiResponseValidationError,
@@ -110,20 +112,14 @@ export const selectFilteredFileDifferences = (state: FileDifferencesState) => {
     return null;
   }
 
-  return new FileDifferencesModel(
-    fileDifferences.values,
-    new ComparedValuesModel(
-      fileDifferences.differences.keyDifferences,
-      fileDifferences.differences.valueDifferences.filter(
-        (valueDifferences) => {
-          return (
-            valueDifferences.file1.indexDifferences.length > 0 ||
-            valueDifferences.file2.indexDifferences.length > 0
-          );
-        }
-      )
-    )
-  );
+  fileDifferences.differences.valueDifferences =
+    fileDifferences.differences.valueDifferences.filter((valueDifferences) => {
+      return (
+        valueDifferences.file1.indexDifferences.length > 0 ||
+        valueDifferences.file2.indexDifferences.length > 0
+      );
+    });
+  return fileDifferences;
 };
 
 export default fileDifferencesSlice.reducer;

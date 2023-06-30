@@ -1,11 +1,11 @@
 import { PageTitleComponent } from '@/components/primitives';
-import { FileDifferencesModel } from '@/models/file-differences';
+import { FileDifferencesInterface } from '@/models/file-differences';
 import { ResultsTableComponent } from '@/components/results/ResultsTable.component';
 
 export const ResultsContentComponent = ({
   diffResult,
 }: {
-  diffResult: FileDifferencesModel;
+  diffResult: FileDifferencesInterface;
 }) => {
   return (
     <output name="result">

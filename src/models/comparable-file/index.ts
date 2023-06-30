@@ -1,7 +1,12 @@
+interface ComparableFileInterface {
+  name: string;
+  content: string;
+}
+
 /**
  * Represents a file used for comparison.
  */
-export class ComparableFileModel {
+export class ComparableFileModel implements ComparableFileInterface {
   public name: string;
   public content: string;
 

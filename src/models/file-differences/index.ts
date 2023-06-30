@@ -1,11 +1,19 @@
-import { FileValuesModel } from '@/models/file-values';
+import { FileValuesInterface, FileValuesModel } from '@/models/file-values';
 import { Expose, Type } from 'class-transformer';
-import { ComparedValuesModel } from '@/models/compared-values';
+import {
+  ComparedValuesInterface,
+  ComparedValuesModel,
+} from '@/models/compared-values';
+
+interface FileDifferencesValuesInterface {
+  file1: FileValuesInterface;
+  file2: FileValuesInterface;
+}
 
 /**
  * Represents the values of two files.
  */
-class FileDifferencesValuesModel {
+class FileDifferencesValuesModel implements FileDifferencesValuesInterface {
   @Type(() => FileValuesModel)
   private readonly file_1: FileValuesModel;
 
@@ -38,10 +46,15 @@ class FileDifferencesValuesModel {
   }
 }
 
+interface FileDifferencesInterface {
+  values: FileDifferencesValuesInterface;
+  differences: ComparedValuesInterface;
+}
+
 /**
  * Represents the values of two files and its differences.
  */
-class FileDifferencesModel {
+class FileDifferencesModel implements FileDifferencesInterface {
   @Type(() => FileDifferencesValuesModel)
   public readonly values: FileDifferencesValuesModel;
 
@@ -62,3 +75,4 @@ class FileDifferencesModel {
 }
 
 export { FileDifferencesModel, FileDifferencesValuesModel };
+export type { FileDifferencesValuesInterface, FileDifferencesInterface };

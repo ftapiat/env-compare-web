@@ -1,11 +1,22 @@
 import { Expose, Type } from 'class-transformer';
-import { KeyDifferencesModel } from '@/models/key-differences';
-import { ValueDifferencesModel } from '@/models/value-differences';
+import {
+  KeyDifferencesInterface,
+  KeyDifferencesModel,
+} from '@/models/key-differences';
+import {
+  ValueDifferencesModel,
+  ValueDifferencesInterface,
+} from '@/models/value-differences';
+
+interface ComparedValuesInterface {
+  keyDifferences: KeyDifferencesInterface;
+  valueDifferences: ValueDifferencesInterface[];
+}
 
 /**
  * Represents a file used for comparison.
  */
-export class ComparedValuesModel {
+class ComparedValuesModel implements ComparedValuesInterface {
   @Type(() => KeyDifferencesModel)
   private readonly key_differences: KeyDifferencesModel;
 
@@ -40,3 +51,6 @@ export class ComparedValuesModel {
     return this.value_differences;
   }
 }
+
+export { ComparedValuesModel };
+export type { ComparedValuesInterface };

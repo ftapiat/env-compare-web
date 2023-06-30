@@ -1,6 +1,6 @@
 import {
   ValueDifferencesContentModel,
-  ValueDifferencesModel,
+  ValueDifferencesInterface,
 } from '@/models/value-differences';
 
 const generateValueWithDifferencesJsx = (
@@ -49,7 +49,7 @@ const generateValueWithDifferencesJsx = (
 export const ResultsValueDiffRowComponent = ({
   differences,
 }: {
-  differences: ValueDifferencesModel;
+  differences: ValueDifferencesInterface;
 }) => {
   return (
     <tr>

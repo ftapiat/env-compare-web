@@ -1,9 +1,14 @@
 import { Expose, Type } from 'class-transformer';
 
+interface ValueDifferencesContentInterface {
+  string: string;
+  indexDifferences: number[];
+}
+
 /**
  * Represents the differences found in a KEY between 2 files.
  */
-class ValueDifferencesContentModel {
+class ValueDifferencesContentModel implements ValueDifferencesContentInterface {
   public readonly string: string;
   private readonly index_differences: number[];
 
@@ -26,10 +31,16 @@ class ValueDifferencesContentModel {
   }
 }
 
+interface ValueDifferencesInterface {
+  key: string;
+  file1: ValueDifferencesContentInterface;
+  file2: ValueDifferencesContentInterface;
+}
+
 /**
  * Represents the differences found in values from the same key between 2 files.
  */
-class ValueDifferencesModel {
+class ValueDifferencesModel implements ValueDifferencesInterface {
   public readonly key: string;
   @Type(() => ValueDifferencesContentModel)
   private readonly file_1: ValueDifferencesContentModel;
@@ -70,3 +81,4 @@ class ValueDifferencesModel {
 }
 
 export { ValueDifferencesContentModel, ValueDifferencesModel };
+export type { ValueDifferencesContentInterface, ValueDifferencesInterface };

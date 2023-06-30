@@ -1,18 +1,18 @@
-import { FileDifferencesValuesModel } from '@/models/file-differences';
-import { ComparedValuesModel } from '@/models/compared-values';
+import { FileDifferencesValuesInterface } from '@/models/file-differences';
+import { ComparedValuesInterface } from '@/models/compared-values';
 import {
   TableComponent,
   TbodyComponent,
   TheadComponent,
 } from '@/components/primitives';
-import { ValueDifferencesModel } from '@/models/value-differences';
+import { ValueDifferencesInterface } from '@/models/value-differences';
 import { ResultsKeyDiffRowComponent } from './ResultsKeyDiffRow.component';
 import { ResultsValueDiffRowComponent } from '@/components/results/ResultsValueDiffRow.component';
 import { robotoMono } from '@/resources/fonts';
 
 interface ResultsTableInterface {
-  values: FileDifferencesValuesModel;
-  differences: ComparedValuesModel;
+  values: FileDifferencesValuesInterface;
+  differences: ComparedValuesInterface;
 }
 
 export const ResultsTableComponent = ({
@@ -35,7 +35,7 @@ export const ResultsTableComponent = ({
         />
         {differences.valueDifferences.length > 0 ? (
           differences.valueDifferences.map(
-            (valueDifferences: ValueDifferencesModel, i: number) => (
+            (valueDifferences: ValueDifferencesInterface, i: number) => (
               <ResultsValueDiffRowComponent
                 key={i}
                 differences={valueDifferences}
