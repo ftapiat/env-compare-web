@@ -2,6 +2,7 @@ import './globals.css';
 import React from 'react';
 import { roboto } from '@/resources/fonts';
 import { config } from '@fortawesome/fontawesome-svg-core';
+import { CustomProvider } from '@/redux/provider';
 
 export const metadata = {
   title: 'Create Next App',
@@ -23,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${roboto.variable} font-roboto`}>
       <body className="bg-abyss text-white text-base md:text-lg px-8 md:px-16 2xl:px-32 pt-10 mx-auto">
-        {children}
+        <CustomProvider>{children}</CustomProvider>
       </body>
     </html>
   );
