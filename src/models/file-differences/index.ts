@@ -4,6 +4,7 @@ import {
   ComparedValuesInterface,
   ComparedValuesModel,
 } from '@/models/compared-values';
+import { ValueDifferencesInterface } from '@/models/value-differences';
 
 interface FileDifferencesValuesInterface {
   file1: FileValuesInterface;
@@ -71,6 +72,50 @@ class FileDifferencesModel implements FileDifferencesInterface {
   ) {
     this.values = values;
     this.differences = differences;
+  }
+
+  /**
+   * Returns an object with the same values as this instance. Replaces computed properties with
+   * their values.
+   *
+   * @return {FileDifferencesInterface}
+   */
+  public toImmutable(): FileDifferencesInterface {
+    return {
+      values: {
+        file1: {
+          values: this.values.file1.values,
+          fileName: this.values.file1.fileName,
+          typeName: this.values.file1.typeName,
+        },
+        file2: {
+          values: this.values.file2.values,
+          fileName: this.values.file2.fileName,
+          typeName: this.values.file2.typeName,
+        },
+      },
+      differences: {
+        valueDifferences: this.differences.valueDifferences.map(
+          (value): ValueDifferencesInterface => {
+            return {
+              key: value.key,
+              file1: {
+                string: value.file1.string,
+                indexDifferences: value.file1.indexDifferences,
+              },
+              file2: {
+                string: value.file2.string,
+                indexDifferences: value.file2.indexDifferences,
+              },
+            };
+          }
+        ),
+        keyDifferences: {
+          file1: this.differences.keyDifferences.file1,
+          file2: this.differences.keyDifferences.file2,
+        },
+      },
+    };
   }
 }
 

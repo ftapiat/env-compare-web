@@ -64,7 +64,8 @@ const fetchFileDifferences = createAsyncThunk<
             FileDifferencesModel
           );
 
-        return Object.assign({}, apiResponse.data);
+        // Fix error "A non-serializable value was detected in the state"
+        return apiResponse.data.toImmutable();
       } else {
         const error = plainToInstance(
           ApiResponseValidationError,
@@ -112,14 +113,15 @@ export const selectFilteredFileDifferences = (state: FileDifferencesState) => {
     return null;
   }
 
-  fileDifferences.differences.valueDifferences =
+  const modifiedFileDifferences = structuredClone(fileDifferences);
+  modifiedFileDifferences.differences.valueDifferences =
     fileDifferences.differences.valueDifferences.filter((valueDifferences) => {
       return (
         valueDifferences.file1.indexDifferences.length > 0 ||
         valueDifferences.file2.indexDifferences.length > 0
       );
     });
-  return fileDifferences;
+  return modifiedFileDifferences;
 };
 
 export default fileDifferencesSlice.reducer;
