@@ -104,9 +104,7 @@ export const fileDifferencesSlice = createSlice({
   },
 });
 
-export { fetchFileDifferences };
-
-export const selectFilteredFileDifferences = (state: FileDifferencesState) => {
+const selectFilteredFileDifferences = (state: FileDifferencesState) => {
   const fileDifferences = state.fileDifferences;
 
   if (!fileDifferences) {
@@ -123,5 +121,7 @@ export const selectFilteredFileDifferences = (state: FileDifferencesState) => {
     });
   return modifiedFileDifferences;
 };
+
+export { fetchFileDifferences, selectFilteredFileDifferences };
 
 export default fileDifferencesSlice.reducer;
