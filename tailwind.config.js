@@ -11,8 +11,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        abyss: '#121212',
-        primary: '#03DAC6',
+        abyss: '#0d1117',
+        'abyss-accent': '#010409',
+        'light-grey': '#30363d',
+        primary: '#2973de',
         secondary: '#ffca46',
         success: '#8FFF37',
         danger: '#FF6262',

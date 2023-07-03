@@ -28,7 +28,9 @@ export const ResultsTableComponent = ({
           <th className="text-secondary">{values.file2.fileName}</th>
         </tr>
       </TheadComponent>
-      <TbodyComponent className={`${robotoMono.variable} font-roboto-mono`}>
+      <TbodyComponent
+        className={`${robotoMono.variable} font-roboto-mono tracking-wide`}
+      >
         <ResultsKeyDiffRowComponent
           keyDifferences1={differences.keyDifferences.file1}
           keyDifferences2={differences.keyDifferences.file2}

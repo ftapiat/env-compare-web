@@ -14,7 +14,7 @@ export const ButtonComponent = ({
 }: ButtonComponentProps) => {
   return (
     <button
-      className={`rounded p-2 rounded h-12 mb-7 bg-primary active:bg-primary font-bold text-abyss flex justify-center items-center disabled:opacity-40 disabled:cursor-not-allowed ${className}`}
+      className={`rounded p-2 h-12 mb-7 bg-primary active:bg-primary font-bold flex justify-center items-center disabled:opacity-40 disabled:cursor-not-allowed ${className}`}
       disabled={isLoading}
     >
       {isLoading ? (

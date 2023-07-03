@@ -1,9 +1,9 @@
 .table {
-  @apply border-2 border-primary;
+  @apply border-2 border-light-grey;
 }
 
 .table > thead {
-  @apply border-b-2 border-b-primary;
+  @apply border-b-2 border-light-grey;
 }
 
 .table > thead > tr:first-child > th {
@@ -12,6 +12,6 @@
 
 .table > tbody > tr > td {
   @apply py-1.5 px-2;
-  @apply border border-zinc-800;
+  @apply border border-light-grey;
   @apply break-words;
 }

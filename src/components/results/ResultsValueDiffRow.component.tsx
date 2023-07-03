@@ -1,10 +1,10 @@
 import {
-  ValueDifferencesContentModel,
+  ValueDifferencesContentInterface,
   ValueDifferencesInterface,
 } from '@/models/value-differences';
 
 const generateValueWithDifferencesJsx = (
-  fileValueDifferences: ValueDifferencesContentModel
+  fileValueDifferences: ValueDifferencesContentInterface
 ) => {
   const arrayContent: JSX.Element[] = [];
 
@@ -15,7 +15,7 @@ const generateValueWithDifferencesJsx = (
     arrayContent.push(
       <span
         key={arrayContent.length + 1}
-        className={painted ? 'text-danger' : ''}
+        className={painted ? 'bg-danger/50 text-white' : 'text-blue-300/75'}
       >
         {word}
       </span>
