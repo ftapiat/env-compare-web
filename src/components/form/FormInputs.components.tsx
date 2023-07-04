@@ -18,10 +18,12 @@ export default function FormInputsComponents({
       <FileValueTextAreaComponent
         name="file_1_content"
         placeholder={`Paste the "File 1" content`}
+        className="lg:mr-2"
       />
       <FileValueTextAreaComponent
         name="file_2_content"
         placeholder={`Paste the "File 2" content`}
+        className="lg:mr-2"
       />
     </div>
   );
@@ -47,8 +49,11 @@ function FileValueTextAreaComponent({
     <TextAreaComponent
       id={name}
       name={name}
-      className={`resize-none text-sm ${className}`}
+      className={`resize-none text-sm valid:border-2 valid:border-white ${
+        className ?? ''
+      }`}
       placeholder={placeholder}
+      required={true}
     />
   );
 }

@@ -8,6 +8,7 @@ interface TextAreaProps {
   className?: string;
   placeholder: string;
   validationState?: ValidationState;
+  required?: boolean;
 }
 
 export const TextAreaComponent = ({
@@ -15,6 +16,7 @@ export const TextAreaComponent = ({
   name,
   className,
   placeholder,
+  required = false,
 }: TextAreaProps) => {
   return (
     <textarea
@@ -22,6 +24,7 @@ export const TextAreaComponent = ({
       name={name}
       className={`px-2 py-1 ${robotoMono.variable} ${styles.inputColors} ${className}`}
       placeholder={placeholder}
+      required={required}
     />
   );
 };

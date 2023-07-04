@@ -1,5 +1,3 @@
-import tailwindScrollbar from 'tailwind-scrollbar';
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   important: true,
@@ -41,6 +39,5 @@ module.exports = {
         },
       });
     },
-    tailwindScrollbar({ nocompatible: true }),
   ],
 };
