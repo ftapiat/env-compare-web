@@ -1,6 +1,7 @@
 'use client';
 
 import { FormEvent } from 'react';
+import 'reflect-metadata';
 import FormInputsComponents from '@/components/form/FormInputs.components';
 import { PageTitleComponent, ButtonComponent } from '@/components/primitives';
 import { ResultsContentComponent } from '@/components/results';
